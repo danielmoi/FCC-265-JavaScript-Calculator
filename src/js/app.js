@@ -35,6 +35,7 @@ $(document).ready(function () {
     if (leftValDone === false) {
 
       leftVal += numVal;
+      rightVal = leftVal;
     }
 
     if (leftValDone === true) {

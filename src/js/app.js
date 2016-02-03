@@ -24,6 +24,7 @@ $(document).ready(function () {
       break;
     case '=':
       answer = eval(calcString);
+      calcString = answer;
       console.log('answer: ' + answer);
       display.val(answer);
       //      calcString = '';

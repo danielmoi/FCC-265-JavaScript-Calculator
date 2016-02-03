@@ -40,6 +40,7 @@ $(document).ready(function () {
 
     if (leftValDone === true) {
       rightVal += numVal;
+      rightValDone = true;
     }
 
 
@@ -52,28 +53,30 @@ $(document).ready(function () {
 
   $('.op').on('click', function () {
     opVal = $(this).text();
-    console.log('on clicked: ' + opVal);
     leftValDone = true;
-    display_opVal.val(opVal);
 
-    switch (opVal) {
-    case '=':
-      console.log('FINALLY');
-      answer = leftVal;
-      break;
-    case '+':
-      console.log('plus');
-      break;
-    case '-':
-      console.log('minus');
-      break;
-    case '/':
-      console.log('divide');
-      break;
-    default:
-      answer = "hello";
-      break;
+    if (rightValDone === true) {
+      switch (opVal) {
+      case '=':
+        console.log('FINALLY');
+        answer = leftVal + rightVal;
+        break;
+      case '+':
+        console.log('plus');
+        break;
+      case '-':
+        console.log('minus');
+        break;
+      case '/':
+        console.log('divide');
+        break;
+      default:
+        answer = "hello";
+        break;
+      }
     }
+
+
     display_leftVal.val(leftVal);
     display_opVal.val(opVal);
     display_rightVal.val(rightVal);

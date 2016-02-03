@@ -1,15 +1,26 @@
+var calcString = '';
+
+var numVal = '',
+
+  leftValDone = false,
+  rightValDone = false,
+
+
+  answer = '',
+
+  leftVal = '',
+  rightVal = '',
+  opVal = '',
+
+  display = $('.input'),
+  display_leftVal = $('.display_leftVal'),
+  display_opVal = $('.display_opVal'),
+  display_rightVal = $('.display_rightVal'),
+  display_answer = $('.display_answer');
+
+
 $(document).ready(function () {
 
-  var calcString = '';
-
-  var answer = '';
-  
-  var leftVal = '';
-  var rightVal = '';
-  
-  var display = $('.input');
-  var display_calcString = $('.display_calcString');
-  var display_answer = $('.display_answer');
 
   display.val(0);
 
@@ -20,43 +31,55 @@ $(document).ready(function () {
 
 
   $('.num').on('click', function () {
-    var leftVal = $(this).text();
+    numVal = $(this).text();
+    console.log(numVal);
+    if (leftValDone === false) {
+
+      leftVal += numVal;
+    }
+
+    if (leftValDone === true) {
+      rightVal += numVal;
+    }
+
+
+    display_leftVal.val(leftVal);
+    display_rightVal.val(rightVal);
+    display_answer.val(answer);
 
 
   });
 
   $('.op').on('click', function () {
-    switch(operator) {
-      case '+':
-        answer = leftVal + rightVal;
-        break;
-      case '-':
-        answer = leftVal - rightVal;
-        break;
-      case '*':
-        answer = leftVal * rightVal;
-        break;
-      case '/':
-        answer = leftVal / rightVal;
-        break;
-      default:
-        answer = "hello";
+    opVal = $(this).text();
+    console.log('on clicked: ' + opVal);
+    leftValDone = true;
+    display_opVal.val(opVal);
+
+    switch (opVal) {
+    case '=':
+      console.log('FINALLY');
+      answer = leftVal;
+      break;
+    case '+':
+      console.log('plus');
+      break;
+    case '-':
+      console.log('minus');
+      break;
+    case '/':
+      console.log('divide');
+      break;
+    default:
+      answer = "hello";
+      break;
     }
+    display_leftVal.val(leftVal);
+    display_opVal.val(opVal);
+    display_rightVal.val(rightVal);
+    display_answer.val(answer);
 
   });
-  
-  
-  
-  
-  
-  display_calcString.val(calcString);
-  display_answer.val(answer);
-
-
-
-
-
-
 
 
 

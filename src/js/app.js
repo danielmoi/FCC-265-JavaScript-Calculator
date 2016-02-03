@@ -54,33 +54,13 @@ $(document).ready(function () {
     opVal = $(this).text();
     leftValDone = true;
     leftVal = parseInt(leftVal, 10);
-    
+
     if (opVal === 'AC') {
       leftVal = 0;
       rightVal = 0;
       opVal = '';
-    }
-
-    if (rightValDone === true) {
-      rightVal = parseInt(rightVal, 10);
-      switch (opVal) {
-      case '=':
-        console.log('FINALLY');
-        answer = leftVal + rightVal;
-        break;
-      case '+':
-        console.log('plus');
-        break;
-      case '-':
-        console.log('minus');
-        break;
-      case '/':
-        console.log('divide');
-        break;
-      default:
-        answer = "hello";
-        break;
-      }
+      leftValDone = false;
+      rightValDone = false;
     }
 
 
@@ -89,6 +69,40 @@ $(document).ready(function () {
     display_rightVal.val(rightVal);
     display_answer.val(answer);
 
+  });
+
+
+  $('.equals').on('click', function () {
+    if (rightValDone === true) {
+      rightVal = parseInt(rightVal, 10);
+      leftVal = parseInt(leftVal, 10);
+
+      switch (opVal) {
+      case '+':
+        answer = leftVal + rightVal;
+        break;
+      case '-':
+        answer = leftVal - rightVal;
+        break;
+      case '/':
+        answer = leftVal / rightVal;
+        break;
+      case '*':
+        answer = leftVal * rightVal;
+        break;
+      default:
+        answer = "hello";
+        break;
+      }
+    }
+    
+    leftVal = answer;
+    rightVal = 0;
+    
+    display_leftVal.val(leftVal);
+    display_opVal.val(opVal);
+    display_rightVal.val(rightVal);
+    display_answer.val(answer);
   });
 
 

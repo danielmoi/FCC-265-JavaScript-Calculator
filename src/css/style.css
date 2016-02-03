@@ -1,0 +1,55 @@
+* {
+  font-family: "Helvetica Neue", "Helvetica", sans-serif;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  -ms-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  font-size: 14px;
+  height: 100%;
+}
+
+.calc-container {
+  min-width: 250px;
+  max-width: 50%;
+  margin: 50px auto;
+  background: #999;
+  padding: 15px;
+  text-align: center;
+}
+
+.row {
+  margin: 6px 0;
+}
+
+.btn {
+  background: #fff;
+  border-radius: 5px;
+  border: 1px solid #222;
+  padding: 10px;
+  width: 45px;
+  height: 45px;
+  font-size: 1.2em;
+  margin: 0 3px;
+}
+
+.btn:hover {
+  cursor: pointer;
+}
+
+.input {
+  font-size: 1.2em;
+  width: 216px;
+  height: 30px;
+  margin: 10px 0;
+}

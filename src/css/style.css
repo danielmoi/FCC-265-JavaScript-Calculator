@@ -32,6 +32,11 @@ body {
   margin: 6px 0;
 }
 
+.console p {
+  text-align: left;
+  padding-left: 50px;
+}
+
 .num,
 .op,
 .equals {

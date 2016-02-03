@@ -2,8 +2,8 @@ var calcString = '';
 
 var numVal = '',
 
-  leftValDone = false,
-  rightValDone = false,
+  leftValStatus = 'start',
+  rightValStatus = 'start',
 
 
   answer = 0,
@@ -13,22 +13,37 @@ var numVal = '',
   opVal = '+',
 
   display_screen = $('.display_screen'),
+
   display_leftVal = $('.display_leftVal'),
   display_leftValType = $('.display_leftValType'),
+  display_leftValStatus = $('.display_leftValStatus'),
+
   display_opVal = $('.display_opVal'),
+
   display_rightVal = $('.display_rightVal'),
+  display_rightValType = $('.display_rightValType'),
+  display_rightValStatus = $('.display_rightValStatus'),
+
+
   display_answer = $('.display_answer');
 
 
 
 $(document).ready(function () {
 
-  display_leftVal.val(leftVal);
-  display_leftValType.val(typeof (leftVal));
-  display_opVal.val(opVal);
-  display_rightVal.val(rightVal);
-  display_answer.val(answer);
-  display_screen.val(0);
+    display_screen.text(answer);
+    
+    display_leftVal.text(leftVal);
+    display_leftValType.text(typeof (leftVal));
+    display_leftValStatus.text(leftValStatus);
+    
+    display_opVal.text(opVal);
+    
+    display_rightVal.text(rightVal);
+    display_rightValType.text(typeof (rightVal));
+    display_rightValStatus.text(rightValStatus);
+    
+    display_answer.text(answer);
 
   $('.reveal').on('click', function () {
     console.log("click");
@@ -38,69 +53,73 @@ $(document).ready(function () {
 
   $('.num').on('click', function () {
     numVal = $(this).val();
-    if (leftValDone === false) {
-
-      if (leftVal !== 0) {
-        leftVal += numVal;
-        display_screen.val(leftVal);
-      }
-
-      if (leftVal === 0) {
-        leftVal = numVal;
-        display_screen.val(leftVal);
-      }
+    if (leftValStatus === 'progress') {
+      leftVal += numVal;
+      display_screen.text(leftVal);
+    }
+    if (leftValStatus === 'start') {
+      leftVal = numVal;
+      leftValStatus = 'progress';
+      display_screen.text(leftVal);
     }
 
-    if (leftValDone === true) {
-      if (rightVal !== 0) {
+
+
+    if (leftValStatus === 'done') {
+      if (rightValStatus === 'progress') {
         rightVal += numVal;
-        rightValDone = true;
-        display_screen.val(rightVal);
+        display_screen.text(rightVal);
       }
-      if (rightVal === 0) {
+      if (rightValStatus === 'start') {
         rightVal = numVal;
-        rightValDone = true;
-        display_screen.val(rightVal);
+        rightValStatus = 'progress';
+        display_screen.text(rightVal);
       }
+
+
     }
 
-    display_leftVal.val(leftVal);
-    display_leftValType.val(typeof (leftVal));
 
-    display_rightVal.val(rightVal);
-    display_answer.val(answer);
+    display_leftVal.text(leftVal);
+    display_leftValType.text(typeof (leftVal));
+
+    display_rightVal.text(rightVal);
+    display_answer.text(answer);
 
 
   });
 
   $('.op').on('click', function () {
     opVal = $(this).text();
-    leftValDone = true;
+    leftValStatus = 'done';
     leftVal = parseInt(leftVal, 10);
 
     if (opVal === 'AC') {
       leftVal = 0;
       rightVal = 0;
       opVal = '+';
-      leftValDone = false;
-      rightValDone = false;
+      leftValStatus = 'start';
+      rightValStatus = 'start';
       answer = 0;
-      display_screen.val(answer);
+      display_screen.text(answer);
     }
 
-    if (rightValDone === true) {
+    if (rightValStatus === 'progress') {
       rightVal = parseInt(rightVal, 10);
       leftVal = parseInt(leftVal, 10);
 
       switch (opVal) {
       case '+':
         answer = leftVal + rightVal;
-        display_screen.val(answer);
-
+        display_screen.text(answer);
+        leftVal = answer;
+        rightVal = 0;
         break;
       case '-':
         answer = leftVal - rightVal;
-        display_screen.val(answer);
+        display_screen.text(answer);
+        leftVal = answer;
+        rightVal = 0;
         break;
       case '/':
         answer = leftVal / rightVal;
@@ -112,22 +131,22 @@ $(document).ready(function () {
         answer = "hello";
         break;
       }
-      leftVal = answer;
-      rightVal = 0;
+
     }
 
 
-    display_leftVal.val(leftVal);
-    display_leftValType.val(typeof (leftVal));
-    display_opVal.val(opVal);
-    display_rightVal.val(rightVal);
-    display_answer.val(answer);
+    display_leftVal.text(leftVal);
+    display_leftValType.text(typeof (leftVal));
+    display_opVal.text(opVal);
+    display_rightVal.text(rightVal);
+    display_answer.text(answer);
 
   });
 
 
   $('.equals').on('click', function () {
-    if (rightValDone === true) {
+    if (rightValStatus === 'progress') {
+      rightValStatus = 'done';
       rightVal = parseInt(rightVal, 10);
       leftVal = parseInt(leftVal, 10);
 
@@ -152,15 +171,22 @@ $(document).ready(function () {
 
     leftVal = answer;
     rightVal = 0;
-    rightValDone = false;
+    rightValStatus = 'start';
     opVal = '+';
 
-    display_screen.val(answer);
-    display_leftVal.val(leftVal);
-    display_leftValType.val(typeof (leftVal));
-    display_opVal.val(opVal);
-    display_rightVal.val(rightVal);
-    display_answer.val(answer);
+    display_screen.text(answer);
+    
+    display_leftVal.text(leftVal);
+    display_leftValType.text(typeof (leftVal));
+    display_leftValStatus.text(leftValStatus);
+    
+    display_opVal.text(opVal);
+    
+    display_rightVal.text(rightVal);
+    display_rightValType.text(typeof (rightVal));
+    display_rightValStatus.text(rightValStatus);
+    
+    display_answer.text(answer);
   });
 
 

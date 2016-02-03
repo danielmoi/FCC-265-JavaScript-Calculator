@@ -35,7 +35,6 @@ $(document).ready(function () {
     if (leftValDone === false) {
 
       leftVal += numVal;
-      rightVal = leftVal;
     }
 
     if (leftValDone === true) {
@@ -55,6 +54,12 @@ $(document).ready(function () {
     opVal = $(this).text();
     leftValDone = true;
     leftVal = parseInt(leftVal, 10);
+    
+    if (opVal === 'AC') {
+      leftVal = 0;
+      rightVal = 0;
+      opVal = '';
+    }
 
     if (rightValDone === true) {
       rightVal = parseInt(rightVal, 10);

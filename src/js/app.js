@@ -10,13 +10,19 @@ $(document).ready(function () {
 
   $('button').on('click', function () {
     var buttonVal = $(this).text();
+    console.log('buttonVal: ' + buttonVal + ' calcString: ' + calcString + ' answer: ' + answer);
 
     switch (buttonVal) {
+    case 'AC':
+      display.val(0);
+      calcString = '';
+      answer = '';
+      break;
     case '=':
       answer = eval(calcString);
       console.log('answer: ' + answer);
       display.val(answer);
-//      calcString = '';
+      //      calcString = '';
       break;
     default:
       calcString += buttonVal;

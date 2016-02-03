@@ -6,11 +6,11 @@ var numVal = '',
   rightValDone = false,
 
 
-  answer = '',
+  answer = 0,
 
   leftVal = 0,
   rightVal = 0,
-  opVal = '',
+  opVal = '+',
 
   display = $('.input'),
   display_leftVal = $('.display_leftVal'),
@@ -19,9 +19,13 @@ var numVal = '',
   display_answer = $('.display_answer');
 
 
+
 $(document).ready(function () {
 
-
+  display_leftVal.val(leftVal);
+  display_opVal.val(opVal);
+  display_rightVal.val(rightVal);
+  display_answer.val(answer);
   display.val(0);
 
   $('.reveal').on('click', function () {
@@ -34,12 +38,28 @@ $(document).ready(function () {
     numVal = $(this).val();
     if (leftValDone === false) {
 
-      leftVal += numVal;
-    }
+      if (leftVal === 0) {
 
+        leftVal = numVal;
+      }
+
+      if (leftVal !== 0) {
+        leftVal += numVal;
+        
+      }
+    }
+    
     if (leftValDone === true) {
-      rightVal += numVal;
-      rightValDone = true;
+      if (rightValDone === 0) {
+        rightVal = numVal;
+        rightValDone = true;
+        
+      }
+      if (rightValDone !== 0) {
+        rightVal += numVal;
+        rightValDone = true;
+        
+      }
     }
 
 
@@ -58,9 +78,10 @@ $(document).ready(function () {
     if (opVal === 'AC') {
       leftVal = 0;
       rightVal = 0;
-      opVal = '';
+      opVal = '+';
       leftValDone = false;
       rightValDone = false;
+      answer = 0;
     }
 
 
@@ -95,10 +116,11 @@ $(document).ready(function () {
         break;
       }
     }
-    
+
     leftVal = answer;
     rightVal = 0;
-    
+    opVal = '+';
+
     display_leftVal.val(leftVal);
     display_opVal.val(opVal);
     display_rightVal.val(rightVal);

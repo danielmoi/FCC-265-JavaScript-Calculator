@@ -26,7 +26,7 @@
     </div>
 
     <div class="row">
-      <button class="op">AC</button>
+      <button class="ac">AC</button>
       <button class="op">C</button>
       <button class="op">+/-</button>
       <button class="op">/</button>
@@ -65,17 +65,17 @@
     </div>
 
     <div class="console">
-      <p>leftVal: <span class="display_leftVal"></span></p>
-      <p>leftValType: <span class="display_leftValType"></span></p>
-      <p>leftValStatus: <span class="display_leftValStatus"></span></p>
+      <p>leftVal: <span class="display_leftVal" data-bind="text: leftVal"></span></p>
+      <p>leftValType: <span class="display_leftValType" data-bind="text: leftValType"></span></p>
+      <p>leftValStatus: <span class="display_leftValStatus" data-bind="text: leftValStatus"></span></p>
       <br>
-      <p>opVal: <span class="display_opVal"></span></p>
+      <p>opVal: <span class="display_opVal" data-bind="text: opVal"></span></p>
       <br>
-      <p>rightVal: <span class="display_rightVal"></span></p>
-      <p>rightValType: <span class="display_rightValType"></span></p>
-      <p>rightValStatus: <span class="display_rightValStatus"></span></p>
+      <p>rightVal: <span class="display_rightVal" data-bind="text: rightVal"></span></p>
+      <p>rightValType: <span class="display_rightValType" data-bind="text: rightValType"></span></p>
+      <p>rightValStatus: <span class="display_rightValStatus" data-bind="text: rightValStatus"></span></p>
       <br>
-      <p>answer: <span class="display_answer"></span></p>
+      <p>answer: <span class="display_answer" data-bind="text: answer"></span></p>
     </div>
 
 
@@ -92,7 +92,7 @@
 
 
   <script src="js/lib/jquery-1.11.3.min.js"></script>
-  <script src="js/lib/knockout-3.2.0.min.js"></script>
+  <script src="js/lib/knockout-3.2.0.js"></script>
 
   <script src="js/app.js"></script>
 

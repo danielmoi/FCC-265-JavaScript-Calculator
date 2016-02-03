@@ -1,48 +1,23 @@
-var calcString = '';
+var ViewModel = function () {
 
-var numVal = '',
+  var self = this;
+  self.numVal = ko.observable();
+  self.leftVal = ko.observable(0);
+  self.leftValType = ko.observable(typeof self.leftVal());
+  self.leftValStatus = ko.observable('start');
 
-  leftValStatus = 'start',
-  rightValStatus = 'start',
+  self.rightVal = ko.observable(0);
+  self.rightValType = ko.observable(typeof self.rightVal());
+  self.rightValStatus = ko.observable('start');
 
-  answer = 0,
+  self.answer = ko.observable(0);
 
-  leftVal = 0,
-  rightVal = 0,
-  opVal = '+',
-
-  display_screen = $('.display_screen'),
-
-  display_leftVal = $('.display_leftVal'),
-  display_leftValType = $('.display_leftValType'),
-  display_leftValStatus = $('.display_leftValStatus'),
-
-  display_opVal = $('.display_opVal'),
-
-  display_rightVal = $('.display_rightVal'),
-  display_rightValType = $('.display_rightValType'),
-  display_rightValStatus = $('.display_rightValStatus'),
-
-
-  display_answer = $('.display_answer');
+  self.opVal = ko.observable('+');
+  self.currentOpVal = ko.observable();
 
 
 
-$(document).ready(function () {
 
-  display_screen.val(answer);
-
-  display_leftVal.text(leftVal);
-  display_leftValType.text(typeof (leftVal));
-  display_leftValStatus.text(leftValStatus);
-
-  display_opVal.text(opVal);
-
-  display_rightVal.text(rightVal);
-  display_rightValType.text(typeof (rightVal));
-  display_rightValStatus.text(rightValStatus);
-
-  display_answer.text(answer);
 
   $('.reveal').on('click', function () {
     console.log("click");
@@ -51,176 +26,147 @@ $(document).ready(function () {
 
 
   $('.num').on('click', function () {
-    numVal = $(this).val();
+    self.numVal($(this).val());
 
-    if (leftValStatus === 'done') {
+    if (self.leftValStatus() === 'done') {
 
-      if (rightValStatus === 'extra') {
-        switch (opVal) {
+      if (self.rightValStatus() === 'extra') {
+        switch (self.opVal()) {
         case '*':
-          rightVal *= numVal;
+          self.rightVal(self.rightVal() * self.numVal());
           break;
         case '/':
-          rightVal /= numVal;
+          self.rightVal(self.rightVal() / self.numVal());
           break;
         }
       }
 
-
-      if (rightValStatus === 'progress') {
-        rightVal += numVal;
-        display_screen.val(rightVal);
+      if (self.rightValStatus() === 'progress') {
+        self.rightVal(self.rightVal() + self.numVal());
       }
-      if (rightValStatus === 'start') {
-        rightVal = numVal;
-        rightValStatus = 'progress';
-        display_screen.val(rightVal);
+
+      if (self.rightValStatus() === 'start') {
+        self.rightVal(self.numVal());
+        self.rightValStatus('progress');
       }
 
 
     }
 
-    if (leftValStatus === 'progress') {
-      leftVal += numVal;
-      display_screen.text(leftVal);
+    if (self.leftValStatus() === 'progress') {
+      self.leftVal(self.leftVal() + self.numVal());
     }
-    if (leftValStatus === 'start') {
-      leftVal = numVal;
-      leftValStatus = 'progress';
-      display_screen.text(leftVal);
+    if (self.leftValStatus() === 'start') {
+      self.leftVal(self.numVal());
+      self.leftValStatus('progress');
     }
-
-
-
-
-
-
-    display_leftVal.text(leftVal);
-    display_leftValType.text(typeof (leftVal));
-
-    display_rightVal.text(rightVal);
-    display_answer.text(answer);
-
 
   });
 
   $('.op').on('click', function () {
-    opVal = $(this).text();
-
-    if (opVal === 'AC') {
-      leftVal = 0;
-      leftValStatus = 'start';
-
-      rightVal = 0;
-      rightValStatus = 'start';
-
-      opVal = '+';
-
-      answer = 0;
-
-      display_screen.val(answer);
-
-      display_leftVal.text(leftVal);
-      display_leftValType.text(typeof (leftVal));
-      display_leftValStatus.text(leftValStatus);
-
-      display_opVal.text(opVal);
-
-      display_rightVal.text(rightVal);
-      display_rightValType.text(typeof (rightVal));
-      display_rightValStatus.text(rightValStatus);
-
-      display_answer.text(answer);
-    }
-
-    leftValStatus = 'done';
-    leftVal = parseInt(leftVal, 10);
+    self.currentOpVal($(this).val());
 
 
 
-    if (rightValStatus === 'progress' || rightValStatus === 'extra') {
-      rightVal = parseInt(rightVal, 10);
-      leftVal = parseInt(leftVal, 10);
 
-      switch (opVal) {
+
+
+    self.leftValStatus('done');
+
+    if (self.rightValStatus() === 'start') {
+      switch (self.currentOpVal()) {
       case '+':
-        answer = leftVal + rightVal;
-        display_screen.text(answer);
-        leftVal = answer;
-        rightVal = 0;
+        self.opVal('+');
         break;
       case '-':
-        answer = leftVal - rightVal;
-        display_screen.text(answer);
-        leftVal = answer;
-        rightVal = 0;
+        self.opVal('-');
         break;
       case '*':
-        rightValStatus = 'extra';
+        self.opVal('*');
         break;
       case '/':
-        rightValStatus = 'extra';
-        break;
-      default:
-        answer = "hello";
+        self.opVal('/');
         break;
       }
     }
 
 
+    if (self.rightValStatus() === 'progress' || self.rightValStatus() === 'extra') {
+      self.rightVal(parseInt(self.rightVal(), 10));
+      self.leftVal(parseInt(self.leftVal(), 10));
 
-    display_leftVal.text(leftVal);
-    display_leftValType.text(typeof (leftVal));
-    display_opVal.text(opVal);
-    display_rightVal.text(rightVal);
-    display_answer.text(answer);
+      switch (self.currentOpVal()) {
+      case '+':
+        self.opVal('+');
+        self.answer(self.leftVal() + self.rightVal());
+        self.rightValStatus('start');
+        self.leftVal(self.answer());
+        self.rightVal(0);
+        break;
+      case '-':
+        self.opVal('-');
+        self.answer(self.leftVal() - self.rightVal());
+        self.rightValStatus('start');
+        self.leftVal(self.answer());
+        self.rightVal(0);
+        break;
+      case '*':
+        self.rightValStatus('extra');
+        break;
+      case '/':
+        self.rightValStatus('extra');
+        break;
+      default:
+        self.answer('hello');
+        break;
+      }
+    }
 
+
+  });
+  
+  $('.ac').on('click', function () {
+      self.leftVal(0);
+      self.leftValStatus('start');
+
+      self.rightVal(0);
+      self.rightValStatus('start');
+
+      self.opVal('+');
+
+      self.answer(0);
   });
 
 
   $('.equals').on('click', function () {
-    if (rightValStatus === 'progress' || rightValStatus === 'extra') {
-      rightValStatus = 'done';
-      rightVal = parseInt(rightVal, 10);
-      leftVal = parseInt(leftVal, 10);
+    if (self.rightValStatus() === 'progress' || self.rightValStatus() === 'extra') {
+      self.rightValStatus('done');
+      self.rightVal(parseInt(self.rightVal(), 10));
+      self.leftVal(parseInt(self.leftVal(), 10));
 
-      switch (opVal) {
+      switch (self.opVal()) {
       case '+':
-        answer = leftVal + rightVal;
+        self.answer(self.leftVal() + self.rightVal());
         break;
       case '-':
-        answer = leftVal - rightVal;
+        self.answer(self.leftVal() - self.rightVal());
         break;
       case '/':
-        answer = leftVal / rightVal;
+        self.answer(self.leftVal() / self.rightVal());
         break;
       case '*':
-        answer = leftVal * rightVal;
+        self.answer(self.leftVal() * self.rightVal());
         break;
       default:
-        answer = "hello";
+        self.answer('hello');
         break;
       }
     }
 
-    leftVal = answer;
-    rightVal = 0;
-    rightValStatus = 'start';
-    opVal = '+';
-
-    display_screen.text(answer);
-
-    display_leftVal.text(leftVal);
-    display_leftValType.text(typeof (leftVal));
-    display_leftValStatus.text(leftValStatus);
-
-    display_opVal.text(opVal);
-
-    display_rightVal.text(rightVal);
-    display_rightValType.text(typeof (rightVal));
-    display_rightValStatus.text(rightValStatus);
-
-    display_answer.text(answer);
+    self.leftVal(self.answer());
+    self.rightVal(0);
+    self.rightValStatus('start');
+    self.opVal('+');
   });
 
 
@@ -231,4 +177,6 @@ $(document).ready(function () {
 
 
 
-});
+};
+
+ko.applyBindings(new ViewModel());

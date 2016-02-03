@@ -1,49 +1,68 @@
 $(document).ready(function () {
 
   var calcString = '';
+
   var answer = '';
+  
+  var leftVal = '';
+  var rightVal = '';
+  
   var display = $('.input');
+  var display_calcString = $('.display_calcString');
+  var display_answer = $('.display_answer');
 
   display.val(0);
 
+  $('.reveal').on('click', function () {
+    console.log("click");
+    $('.console').toggle();
+  });
 
 
-  $('button').on('click', function () {
-    var buttonVal = $(this).text();
-    console.log('buttonVal: ' + buttonVal + ' calcString: ' + calcString + ' answer: ' + answer);
-
-    switch (buttonVal) {
-    case 'AC':
-      display.val(0);
-      calcString = '';
-      answer = '';
-      break;
-    case 'Ans':
-      calcString += answer;
-      display.val(calcString);
-      break;
-    case '=':
-      answer = eval(calcString);
-      calcString = answer;
-      console.log('answer: ' + answer);
-      display.val(answer);
-      //      calcString = '';
-      break;
-    default:
-      calcString += buttonVal;
-      display.val(calcString);
-
-      console.log('calcString: ' + calcString);
-    }
-
-
-
-
-
-
+  $('.num').on('click', function () {
+    var leftVal = $(this).text();
 
 
   });
+
+  $('.op').on('click', function () {
+    switch(operator) {
+      case '+':
+        answer = leftVal + rightVal;
+        break;
+      case '-':
+        answer = leftVal - rightVal;
+        break;
+      case '*':
+        answer = leftVal * rightVal;
+        break;
+      case '/':
+        answer = leftVal / rightVal;
+        break;
+      default:
+        answer = "hello";
+    }
+
+  });
+  
+  
+  
+  
+  
+  display_calcString.val(calcString);
+  display_answer.val(answer);
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

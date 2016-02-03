@@ -37,7 +37,8 @@ body {
 
 
 // ELEMENTS
-.btn {
+.num,
+.op {
   background: #fff;
   border-radius: 5px;
   border: 1px solid #222;
@@ -52,7 +53,7 @@ body {
   cursor: pointer;
 }
   
-.input {
+input {
   font-size: 1.2em;
   width: 216px;
   height: 30px;

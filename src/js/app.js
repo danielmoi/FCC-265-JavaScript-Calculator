@@ -31,10 +31,7 @@ $(document).ready(function () {
 
 
   $('.num').on('click', function () {
-    numVal = parseInt($(this).val(), 10);
-    console.log(typeof(numVal));
-    console.log(typeof(leftVal));
-    console.log(numVal);
+    numVal = $(this).val();
     if (leftValDone === false) {
 
       leftVal += numVal;
@@ -56,8 +53,10 @@ $(document).ready(function () {
   $('.op').on('click', function () {
     opVal = $(this).text();
     leftValDone = true;
+    leftVal = parseInt(leftVal, 10);
 
     if (rightValDone === true) {
+      rightVal = parseInt(rightVal, 10);
       switch (opVal) {
       case '=':
         console.log('FINALLY');

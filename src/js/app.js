@@ -38,28 +38,31 @@ $(document).ready(function () {
     numVal = $(this).val();
     if (leftValDone === false) {
 
+      if (leftVal !== 0) {
+        leftVal += numVal;
+
+      }
+
       if (leftVal === 0) {
 
         leftVal = numVal;
       }
 
-      if (leftVal !== 0) {
-        leftVal += numVal;
-        
-      }
+
     }
-    
+
     if (leftValDone === true) {
-      if (rightValDone === 0) {
-        rightVal = numVal;
-        rightValDone = true;
-        
-      }
-      if (rightValDone !== 0) {
+      if (rightVal !== 0) {
         rightVal += numVal;
         rightValDone = true;
-        
+
       }
+      if (rightVal === 0) {
+        rightVal = numVal;
+        rightValDone = true;
+
+      }
+
     }
 
 

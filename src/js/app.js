@@ -13,7 +13,7 @@ var ViewModel = function () {
   self.answer = ko.observable(0);
 
   self.opVal = ko.observable('+');
-  self.currentOpVal = ko.observable();
+  self.currentOpVal = ko.observable('');
 
 
 
@@ -31,7 +31,7 @@ var ViewModel = function () {
     if (self.leftValStatus() === 'done') {
 
       if (self.rightValStatus() === 'extra') {
-        switch (self.opVal()) {
+        switch (self.currentOpVal()) {
         case '*':
           self.rightVal(self.rightVal() * self.numVal());
           break;
@@ -64,16 +64,12 @@ var ViewModel = function () {
   });
 
   $('.op').on('click', function () {
-    self.currentOpVal($(this).val());
-
-
-
-
-
+    self.currentOpVal($(this).text());
 
     self.leftValStatus('done');
 
     if (self.rightValStatus() === 'start') {
+      console.log(self.currentOpVal());
       switch (self.currentOpVal()) {
       case '+':
         self.opVal('+');
@@ -124,17 +120,17 @@ var ViewModel = function () {
 
 
   });
-  
+
   $('.ac').on('click', function () {
-      self.leftVal(0);
-      self.leftValStatus('start');
+    self.leftVal(0);
+    self.leftValStatus('start');
 
-      self.rightVal(0);
-      self.rightValStatus('start');
+    self.rightVal(0);
+    self.rightValStatus('start');
 
-      self.opVal('+');
+    self.opVal('+');
 
-      self.answer(0);
+    self.answer(0);
   });
 
 
@@ -162,11 +158,14 @@ var ViewModel = function () {
         break;
       }
     }
+    if (self.rightVal() === 0) {
+      self.answer(self.leftVal());
+    }
 
     self.leftVal(self.answer());
     self.rightVal(0);
     self.rightValStatus('start');
-    self.opVal('+');
+//    self.opVal('+');
   });
 
 

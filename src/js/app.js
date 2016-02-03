@@ -18,6 +18,10 @@ $(document).ready(function () {
       calcString = '';
       answer = '';
       break;
+    case 'Ans':
+      calcString += answer;
+      display.val(calcString);
+      break;
     case '=':
       answer = eval(calcString);
       console.log('answer: ' + answer);

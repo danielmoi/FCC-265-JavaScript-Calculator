@@ -14,6 +14,7 @@ var numVal = '',
 
   display_screen = $('.display_screen'),
   display_leftVal = $('.display_leftVal'),
+  display_leftValType = $('.display_leftValType'),
   display_opVal = $('.display_opVal'),
   display_rightVal = $('.display_rightVal'),
   display_answer = $('.display_answer');
@@ -23,6 +24,7 @@ var numVal = '',
 $(document).ready(function () {
 
   display_leftVal.val(leftVal);
+  display_leftValType.val(typeof (leftVal));
   display_opVal.val(opVal);
   display_rightVal.val(rightVal);
   display_answer.val(answer);
@@ -63,6 +65,8 @@ $(document).ready(function () {
     }
 
     display_leftVal.val(leftVal);
+    display_leftValType.val(typeof (leftVal));
+
     display_rightVal.val(rightVal);
     display_answer.val(answer);
 
@@ -82,11 +86,39 @@ $(document).ready(function () {
       rightValDone = false;
       answer = 0;
       display_screen.val(answer);
-
-
     }
 
+    if (rightValDone === true) {
+      rightVal = parseInt(rightVal, 10);
+      leftVal = parseInt(leftVal, 10);
+
+      switch (opVal) {
+      case '+':
+        answer = leftVal + rightVal;
+        display_screen.val(answer);
+
+        break;
+      case '-':
+        answer = leftVal - rightVal;
+        display_screen.val(answer);
+        break;
+      case '/':
+        answer = leftVal / rightVal;
+        break;
+      case '*':
+        answer = leftVal * rightVal;
+        break;
+      default:
+        answer = "hello";
+        break;
+      }
+      leftVal = answer;
+      rightVal = 0;
+    }
+
+
     display_leftVal.val(leftVal);
+    display_leftValType.val(typeof (leftVal));
     display_opVal.val(opVal);
     display_rightVal.val(rightVal);
     display_answer.val(answer);
@@ -120,10 +152,12 @@ $(document).ready(function () {
 
     leftVal = answer;
     rightVal = 0;
+    rightValDone = false;
     opVal = '+';
 
     display_screen.val(answer);
     display_leftVal.val(leftVal);
+    display_leftValType.val(typeof (leftVal));
     display_opVal.val(opVal);
     display_rightVal.val(rightVal);
     display_answer.val(answer);

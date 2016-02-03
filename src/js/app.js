@@ -8,8 +8,8 @@ var numVal = '',
 
   answer = '',
 
-  leftVal = '',
-  rightVal = '',
+  leftVal = 0,
+  rightVal = 0,
   opVal = '',
 
   display = $('.input'),
@@ -31,8 +31,9 @@ $(document).ready(function () {
 
 
   $('.num').on('click', function () {
-    numVal = $(this).val();
+    numVal = parseInt($(this).val(), 10);
     console.log(typeof(numVal));
+    console.log(typeof(leftVal));
     console.log(numVal);
     if (leftValDone === false) {
 

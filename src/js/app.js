@@ -31,7 +31,8 @@ $(document).ready(function () {
 
 
   $('.num').on('click', function () {
-    numVal = $(this).text();
+    numVal = $(this).val();
+    console.log(typeof(numVal));
     console.log(numVal);
     if (leftValDone === false) {
 

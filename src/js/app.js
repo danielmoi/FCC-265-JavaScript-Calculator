@@ -10,9 +10,13 @@ var ViewModel = function () {
   self.rightValType = ko.observable(typeof self.rightVal());
   self.rightValStatus = ko.observable('start');
 
+  self.extraVal = ko.observable('0');
+  self.extraValType = ko.observable(typeof self.extraVal());
+
+
   self.answer = ko.observable('0');
 
-  self.opVal = ko.observable('+');
+  self.opVal = ko.observable('');
   self.currentOpVal = ko.observable('');
 
 
@@ -30,32 +34,38 @@ var ViewModel = function () {
 
     if (self.leftValStatus() === 'done') {
 
-      if (self.rightValStatus() === 'extra') {
-        switch (self.currentOpVal()) {
-        case '*':
-          self.rightVal(self.rightVal() * self.numVal());
+      if (self.rightValStatus() === 'progress' || self.rightValStatus() === 'extra') {
+        switch (self.numVal()) {
+        case '.':
+          if (self.rightVal().indexOf('.') === -1) {
+            console.log('finally');
+            self.rightVal(self.rightVal() + self.numVal());
+          }
           break;
-        case '/':
-          self.rightVal(self.rightVal() / self.numVal());
+        default:
+          self.rightVal(self.rightVal() + self.numVal());
           break;
         }
       }
 
-      if (self.rightValStatus() === 'progress') {
-        self.rightVal(self.rightVal() + self.numVal());
-      }
-
       if (self.rightValStatus() === 'start') {
-        self.rightVal(self.numVal());
-        self.rightValStatus('progress');
+        switch (self.numVal()) {
+        case '.':
+          self.rightVal(self.rightVal() + self.numVal());
+          self.rightValStatus('progress');
+          break;
+        default:
+          self.rightVal(self.numVal());
+          self.rightValStatus('progress');
+          break;
+        }
+
+
       }
-
-
     }
 
-    if (self.leftValStatus() === 'progress') {
-      
 
+    if (self.leftValStatus() === 'progress') {
       switch (self.numVal()) {
       case '.':
         if (self.leftVal().indexOf('.') === -1) {
@@ -63,14 +73,21 @@ var ViewModel = function () {
           self.leftVal(self.leftVal() + self.numVal());
         }
         break;
+      case '+/-':
+        if ((self.leftVal()).indexOf('-') === -1) {
+          console.log('minus');
+          self.leftVal(((self.leftVal()) * -1));
+        }
+        if (self.leftVal().charAt(0) === '-') {
+          console.log('2');
+          self.leftVal(self.leftVal().slice(1));
+        }
+        break;
       default:
         self.leftVal(self.leftVal() + self.numVal());
         break;
       }
     }
-
-
-
 
     if (self.leftValStatus() === 'start') {
       switch (self.numVal()) {
@@ -84,6 +101,8 @@ var ViewModel = function () {
         break;
       }
     }
+
+
 
   });
 
@@ -110,10 +129,24 @@ var ViewModel = function () {
       }
     }
 
+    if (self.rightValStatus() === 'extra') {
+      switch (self.currentOpVal()) {
+      case '*':
+        self.rightVal(self.extraVal() * self.rightVal());
+        self.answer(self.rightVal());
+        break;
+      case '/':
+        self.rightVal(self.extraVal() / self.rightVal());
+        self.answer(self.rightVal());
+        break;
+      }
 
-    if (self.rightValStatus() === 'progress' || self.rightValStatus() === 'extra') {
-      self.rightVal(parseInt(self.rightVal(), 10));
-      self.leftVal(parseInt(self.leftVal(), 10));
+    }
+
+
+    if (self.rightValStatus() === 'progress') {
+      self.rightVal(parseFloat(self.rightVal()));
+      self.leftVal(parseFloat(self.leftVal()));
 
       switch (self.currentOpVal()) {
       case '+':
@@ -121,20 +154,24 @@ var ViewModel = function () {
         self.answer(self.leftVal() + self.rightVal());
         self.rightValStatus('start');
         self.leftVal(self.answer());
-        self.rightVal(0);
+        self.rightVal('0');
         break;
       case '-':
         self.opVal('-');
         self.answer(self.leftVal() - self.rightVal());
         self.rightValStatus('start');
         self.leftVal(self.answer());
-        self.rightVal(0);
+        self.rightVal('0');
         break;
       case '*':
         self.rightValStatus('extra');
+        self.extraVal(self.rightVal());
+        self.rightVal('0');
         break;
       case '/':
         self.rightValStatus('extra');
+        self.extraVal(self.rightVal());
+        self.rightVal('0');
         break;
       default:
         self.answer('hello');
@@ -152,6 +189,8 @@ var ViewModel = function () {
     self.rightVal(0);
     self.rightValStatus('start');
 
+    self.extraVal('0');
+
     self.opVal('+');
 
     self.answer(0);
@@ -159,10 +198,34 @@ var ViewModel = function () {
 
 
   $('.equals').on('click', function () {
-    if (self.rightValStatus() === 'progress' || self.rightValStatus() === 'extra') {
+    if (self.rightValStatus() === 'extra') {
+      switch (self.currentOpVal()) {
+      case '*':
+        if (self.opVal() === '+') {
+          self.answer(self.extraVal() * self.rightVal() + self.leftVal());
+        }
+        if (self.opVal() === '-') {
+          self.answer(self.extraVal() * self.rightVal() - self.leftVal());
+        }
+        break;
+      case '/':
+        if (self.opVal() === '+') {
+          self.answer(self.extraVal() / self.rightVal() + self.leftVal());
+        }
+        if (self.opVal() === '-') {
+          self.answer(self.extraVal() / self.rightVal() - self.leftVal());
+        }
+        break;
+      }
+
+
+
+    }
+
+    if (self.rightValStatus() === 'progress') {
       self.rightValStatus('done');
-      self.rightVal(parseFloat(self.rightVal(), 10));
-      self.leftVal(parseFloat(self.leftVal(), 10));
+      self.rightVal(parseFloat(self.rightVal()));
+      self.leftVal(parseFloat(self.leftVal()));
 
       switch (self.opVal()) {
       case '+':
@@ -189,6 +252,7 @@ var ViewModel = function () {
     self.leftVal(self.answer());
     self.rightVal(0);
     self.rightValStatus('start');
+    self.extraVal(0);
     //    self.opVal('+');
   });
 

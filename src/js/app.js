@@ -10,7 +10,6 @@ $(document).ready(function () {
 
   $('button').on('click', function () {
     var buttonVal = $(this).text();
-    console.log('buttonVal: ' + buttonVal + ' calcString: ' + calcString + ' answer: ' + answer);
 
     switch (buttonVal) {
     case 'AC':
@@ -22,13 +21,31 @@ $(document).ready(function () {
       calcString += answer;
       display.val(calcString);
       break;
+    case '+/-':
+      if (calcString.indexOf('-') === -1) {
+        console.log("MINUS");
+        calcString *= -1;
+        display.val(calcString);
+        break;
+      }
+      if (calcString.indexOf('-') === 0) {
+        console.log("MINUS....");
+        calcString *= -1;
+        display.val(calcString);
+      }
+      break;
+    case 'C':
+      calcString = calcString.slice(0, -1);
+      display.val(calcString);
+
+      break;
     case '=':
       answer = eval(calcString);
-      calcString = answer;
       console.log('answer: ' + answer);
       display.val(answer);
       //      calcString = '';
       break;
+
     default:
       calcString += buttonVal;
       display.val(calcString);
@@ -41,6 +58,7 @@ $(document).ready(function () {
 
 
 
+    console.log('buttonVal: ' + buttonVal + ' calcString: ' + calcString + ' answer: ' + answer);
 
 
   });

@@ -2,15 +2,15 @@ var ViewModel = function () {
 
   var self = this;
   self.numVal = ko.observable();
-  self.leftVal = ko.observable(0);
+  self.leftVal = ko.observable('0');
   self.leftValType = ko.observable(typeof self.leftVal());
   self.leftValStatus = ko.observable('start');
 
-  self.rightVal = ko.observable(0);
+  self.rightVal = ko.observable('0');
   self.rightValType = ko.observable(typeof self.rightVal());
   self.rightValStatus = ko.observable('start');
 
-  self.answer = ko.observable(0);
+  self.answer = ko.observable('0');
 
   self.opVal = ko.observable('+');
   self.currentOpVal = ko.observable('');
@@ -26,7 +26,7 @@ var ViewModel = function () {
 
 
   $('.num').on('click', function () {
-    self.numVal($(this).val());
+    self.numVal($(this).text());
 
     if (self.leftValStatus() === 'done') {
 
@@ -54,11 +54,35 @@ var ViewModel = function () {
     }
 
     if (self.leftValStatus() === 'progress') {
-      self.leftVal(self.leftVal() + self.numVal());
+      
+
+      switch (self.numVal()) {
+      case '.':
+        if (self.leftVal().indexOf('.') === -1) {
+          console.log('finally');
+          self.leftVal(self.leftVal() + self.numVal());
+        }
+        break;
+      default:
+        self.leftVal(self.leftVal() + self.numVal());
+        break;
+      }
     }
+
+
+
+
     if (self.leftValStatus() === 'start') {
-      self.leftVal(self.numVal());
-      self.leftValStatus('progress');
+      switch (self.numVal()) {
+      case '.':
+        self.leftVal(self.leftVal() + self.numVal());
+        self.leftValStatus('progress');
+        break;
+      default:
+        self.leftVal(self.numVal());
+        self.leftValStatus('progress');
+        break;
+      }
     }
 
   });
@@ -137,8 +161,8 @@ var ViewModel = function () {
   $('.equals').on('click', function () {
     if (self.rightValStatus() === 'progress' || self.rightValStatus() === 'extra') {
       self.rightValStatus('done');
-      self.rightVal(parseInt(self.rightVal(), 10));
-      self.leftVal(parseInt(self.leftVal(), 10));
+      self.rightVal(parseFloat(self.rightVal(), 10));
+      self.leftVal(parseFloat(self.leftVal(), 10));
 
       switch (self.opVal()) {
       case '+':
@@ -165,7 +189,7 @@ var ViewModel = function () {
     self.leftVal(self.answer());
     self.rightVal(0);
     self.rightValStatus('start');
-//    self.opVal('+');
+    //    self.opVal('+');
   });
 
 
